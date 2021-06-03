@@ -14,13 +14,13 @@ attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap
 
 // Create a base layer that holds both maps.
 let baseMaps = {
-  Light: light,
-  Dark: dark
+  Day: light,
+  Night: dark
 };
 
 // Create the map object with center at the San Francisco airport.
 let map = L.map('mapid', {
-  center: [44, -80],
+  center: [44.0, -80.0],
   zoom: 2,
   layers: [light]
 });
@@ -29,21 +29,25 @@ let map = L.map('mapid', {
 L.control.layers(baseMaps).addTo(map);
 
 // Then we add our 'graymap' tile layer to the map.
-streets.addTo(map);
+// streets.addTo(map);
 
 // Accessing the airport GeoJSON URL
-let airportData = "https://raw.githubusercontent.com/Adam-Call/Mapping_Earthquakes/main/Mapping_GeoJSON_Points/Static/majorAirports.json";
+let torontoData = "https://raw.githubusercontent.com/Adam-Call/Mapping_Earthquakes/main/Mapping_GeoJSON_Linestrings/Static/torontoRoutes.json";
 
 // Grabbing our GeoJSON data.
-d3.json(airportData).then(function(data) {
+d3.json(torontoData).then(function(data) {
   console.log(data);
 // Creating a GeoJSON layer with the retrieved data.
-L.geoJson(data).addTo(map);
+L.geoJson(data, {
+  color: '#ffffa1',
+  weight: 2,
+  onEachFeature: function(feature, layer) {
+    layer.bindPopup('<h3> Airline: ' + feature.properties.airline + '</h3> <hr><h3> Desination: ' + feature.properties.dst + '</h3>');
+  }
+})
+.addTo(map);
 });
 
-// cities.forEach(city => L.marker(city.location)
-//   .bindPopup("<h1>" + city.name + '</h1> <hr> <h3>Population</h3>' + city.population + '</h3>')
-//   .addTo(myMap)
-// );
+
 
 

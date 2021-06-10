@@ -1,1 +1,2 @@
 # Mapping_Earthquakes
+In this project I have created a map with different visual layers. The map logs earthquakes for a week. The earthquakes are visualized with varying sized and colored circles by the magnitude. There is a layer that shows the tectonic plates as well. 
